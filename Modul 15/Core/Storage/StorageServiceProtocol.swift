@@ -8,6 +8,6 @@
 import Foundation
 
 public protocol StorageServiceProtocol {
-    func save()
-    func load()
+    func save<T: Codable>(_ incomingData: T)
+    func load<T: Decodable>(of type: T.Type) -> T?
 }

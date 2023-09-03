@@ -18,7 +18,7 @@ struct NetworkService: NetworkServiceProtocol {
 
     // MARK: - Methods
 
-    func loadImage(urlString: String, completion: ((UIImage?) -> Void)?) {
+    func loadImage(urlString: String, completion: ((Data?) -> Void)?) {
         DispatchQueue.global(qos: .userInitiated).async {
             guard
                 let url = URL(string: urlString),
@@ -30,9 +30,9 @@ struct NetworkService: NetworkServiceProtocol {
                 }
                 return
             }
-            let image = UIImage(data: data)
+
             DispatchQueue.main.async {
-                completion?(image)
+                completion?(data)
             }
         }
     }

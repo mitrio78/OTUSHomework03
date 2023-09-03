@@ -59,7 +59,11 @@ final class DetailsViewController: UIViewController {
 
     func set(movie details: MovieDisplayModel) {
         movieDetails = details
-        coverImage.image = details.image
+
+        if let imageData = details.image {
+            coverImage.image = UIImage(data: imageData)
+        }
+
         titleLabel.text = details.title
         descriptionText.text = details.fullDescription ?? details.description
     }

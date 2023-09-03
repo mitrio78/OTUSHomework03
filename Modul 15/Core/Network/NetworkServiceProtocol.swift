@@ -11,7 +11,7 @@ import UIKit
 
 protocol NetworkServiceProtocol {
 
-    func loadImage(urlString: String, completion: ((UIImage?) -> Void)?)
+    func loadImage(urlString: String, completion: ((Data?) -> Void)?)
 
     func getSearchResults<Response: Decodable>(
         _ type: Response.Type,

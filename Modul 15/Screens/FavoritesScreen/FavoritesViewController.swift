@@ -10,11 +10,9 @@ import UIKit
 
 final class FavoritesViewController: UIViewController {
 
-    private var movies: [MovieDisplayModel] = [
-        MovieDisplayModel(id: "01", title: "Movie #1", description: "One of the best movies"),
-        MovieDisplayModel(id: "02", title: "Movie #2", description: "One of the best movies"),
-        MovieDisplayModel(id: "03", title: "Movie #3", description: "One of the best movies")
-    ]
+    private var movies: [MovieDisplayModel] = []
+
+    private var favoritesService: FavoritesServiceProtocol!
 
     private lazy var tableView: UITableView = {
         let tableView = UITableView()
@@ -24,6 +22,8 @@ final class FavoritesViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        favoritesService = FavoritesService.shared
+        movies = favoritesService.loadFavorites()
         setupViews()
         setupConstraints()
         setupTableView()
@@ -64,7 +64,7 @@ extension FavoritesViewController: UITableViewDataSource {
 }
 
 extension FavoritesViewController: MovieCellDelegate {
-    func uploadImages(for id: String, image urlString: String, completion: ((UIImage?) -> Void)?) {
+    func uploadImages(for id: String, image urlString: String, completion: ((Data?) -> Void)?) {
         // TODO: - upload images
     }
 }

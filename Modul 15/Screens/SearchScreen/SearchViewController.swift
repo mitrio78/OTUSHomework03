@@ -15,6 +15,7 @@ final class SearchViewController: UIViewController {
 
     var kinopoiskService: SearchServiceProtocol!
     var omdbService: SearchServiceProtocol!
+    var storage: FavoritesServiceProtocol!
 
     // MARK: - Private Properties
 
@@ -80,6 +81,7 @@ final class SearchViewController: UIViewController {
         hideKeyboardWhenTappedAround()
         kinopoiskService = KinopoiskSearchService()
         omdbService = OMDBSearchService()
+        storage = FavoritesService.shared
         setupNavigationBar()
         setupViews()
         setupConstraints()
@@ -101,6 +103,25 @@ extension SearchViewController: UITableViewDelegate {
         let detailsVC = DetailsViewController()
         detailsVC.set(movie: movies[indexPath.row])
         navigationController?.pushViewController(detailsVC, animated: true)
+    }
+
+    func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+        let action = UIContextualAction(
+            style: .normal,
+            title: nil
+        ) { [weak self] (action, view, completionHandler) in
+            guard let self = self else {
+                return
+            }
+
+            self.handleAddToFavorite(self.movies[indexPath.row])
+            completionHandler(true)
+        }
+
+        action.backgroundColor = .systemYellow
+        action.image = UIImage(systemName: "star.fill")
+
+        return UISwipeActionsConfiguration(actions: [action])
     }
 }
 
@@ -144,13 +165,14 @@ extension SearchViewController: UISearchBarDelegate {
 // MARK: - CustomCellDelegate
 
 extension SearchViewController: MovieCellDelegate {
-    func uploadImages(for id: String, image urlString: String, completion: ((UIImage?) -> Void)?) {
+    func uploadImages(for id: String, image urlString: String, completion: ((Data?) -> Void)?) {
         DispatchQueue.global(qos: .background).async { [weak self] in
             guard let cacheImage = self?.movies.first(where: { $0.id == id })?.image else {
                 self?.currentSearchService.getImage(urlString: urlString) { image in
                     if let movieIndex = self?.movies.firstIndex(where: { $0.id == id }) {
                         self?.movies[movieIndex].image = image
                     }
+
                     DispatchQueue.main.async {
                         completion?(image)
                     }
@@ -191,6 +213,12 @@ fileprivate extension SearchViewController {
     func openFavorites() {
         let favVC = FavoritesViewController()
         navigationController?.pushViewController(favVC, animated: true)
+    }
+
+    // MARK: - Swipe Actions
+
+    private func handleAddToFavorite(_ movie: MovieDisplayModel) {
+        storage.save(movie)
     }
 
     // MARK: - Private Methods

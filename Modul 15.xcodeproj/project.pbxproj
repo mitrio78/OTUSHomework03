@@ -26,6 +26,8 @@
 		CA59AD942AA50BE5006A442B /* StorageService.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA59AD932AA50BE5006A442B /* StorageService.swift */; };
 		CA59AD962AA50BF5006A442B /* StorageServiceProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA59AD952AA50BF5006A442B /* StorageServiceProtocol.swift */; };
 		CA59AD992AA50CBC006A442B /* FavoritesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA59AD982AA50CBC006A442B /* FavoritesViewController.swift */; };
+		CA59AD9B2AA52601006A442B /* StorageKeys.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA59AD9A2AA52601006A442B /* StorageKeys.swift */; };
+		CA59AD9D2AA52ABE006A442B /* FavoritesService.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA59AD9C2AA52ABE006A442B /* FavoritesService.swift */; };
 		CAA35D342A0FC6D4002E13FD /* DetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAA35D332A0FC6D4002E13FD /* DetailsViewController.swift */; };
 		CAA35D362A10E7DB002E13FD /* OMDBService.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAA35D352A10E7DB002E13FD /* OMDBService.swift */; };
 		CAA35D382A10EC5F002E13FD /* SearchParametersProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAA35D372A10EC5F002E13FD /* SearchParametersProtocol.swift */; };
@@ -55,6 +57,8 @@
 		CA59AD932AA50BE5006A442B /* StorageService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StorageService.swift; sourceTree = "<group>"; };
 		CA59AD952AA50BF5006A442B /* StorageServiceProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StorageServiceProtocol.swift; sourceTree = "<group>"; };
 		CA59AD982AA50CBC006A442B /* FavoritesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoritesViewController.swift; sourceTree = "<group>"; };
+		CA59AD9A2AA52601006A442B /* StorageKeys.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StorageKeys.swift; sourceTree = "<group>"; };
+		CA59AD9C2AA52ABE006A442B /* FavoritesService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoritesService.swift; sourceTree = "<group>"; };
 		CAA35D332A0FC6D4002E13FD /* DetailsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailsViewController.swift; sourceTree = "<group>"; };
 		CAA35D352A10E7DB002E13FD /* OMDBService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OMDBService.swift; sourceTree = "<group>"; };
 		CAA35D372A10EC5F002E13FD /* SearchParametersProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchParametersProtocol.swift; sourceTree = "<group>"; };
@@ -205,6 +209,7 @@
 				CA59AD892A9E467B006A442B /* SearchServiceProtocol.swift */,
 				CA59AD812A9E45D0006A442B /* KinopoiskService.swift */,
 				CAA35D352A10E7DB002E13FD /* OMDBService.swift */,
+				CA59AD9C2AA52ABE006A442B /* FavoritesService.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -214,6 +219,7 @@
 			children = (
 				CA59AD932AA50BE5006A442B /* StorageService.swift */,
 				CA59AD952AA50BF5006A442B /* StorageServiceProtocol.swift */,
+				CA59AD9A2AA52601006A442B /* StorageKeys.swift */,
 			);
 			path = Storage;
 			sourceTree = "<group>";
@@ -322,6 +328,7 @@
 				CAA35D382A10EC5F002E13FD /* SearchParametersProtocol.swift in Sources */,
 				CA59AD822A9E45D0006A442B /* KinopoiskService.swift in Sources */,
 				CAA35D3A2A110274002E13FD /* KinoPoisk.swift in Sources */,
+				CA59AD9D2AA52ABE006A442B /* FavoritesService.swift in Sources */,
 				CA59AD962AA50BF5006A442B /* StorageServiceProtocol.swift in Sources */,
 				164D89CC29DDCD15005D493F /* SearchViewController.swift in Sources */,
 				1654772629DDDB1B003DBFE3 /* CustomCell.swift in Sources */,
@@ -340,6 +347,7 @@
 				164D89CA29DDCD15005D493F /* SceneDelegate.swift in Sources */,
 				161FB3882A0D453100C1F8A2 /* NetworkService.swift in Sources */,
 				CA59AD862A9E461F006A442B /* KinoPoiskSearchParams.swift in Sources */,
+				CA59AD9B2AA52601006A442B /* StorageKeys.swift in Sources */,
 				CA59AD8A2A9E467B006A442B /* SearchServiceProtocol.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

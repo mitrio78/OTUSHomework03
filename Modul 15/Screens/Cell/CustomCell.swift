@@ -8,7 +8,7 @@ import SnapKit
 import UIKit
 
 protocol MovieCellDelegate: AnyObject {
-    func uploadImages(for id: String, image urlString: String, completion: ((UIImage?) -> Void)?)
+    func uploadImages(for id: String, image urlString: String, completion: ((Data?) -> Void)?)
 }
 
 // MARK: - Custom Cell
@@ -61,7 +61,9 @@ final class MovieCell: UITableViewCell {
         movieId = model.id
         title.text = model.title
         textView.text = model.description
-        image.image = model.image
+        if let imageData = model.image {
+            image.image = UIImage(data: imageData)
+        }
         self.imageUrlString = model.imageURL
     }
 
@@ -133,14 +135,15 @@ fileprivate extension MovieCell {
         }
 
         delegate?.uploadImages(for: movieId, image: url) { [weak self] image in
-            guard let image = image else {
+            guard let imageData = image, let uiImage = UIImage(data: imageData) else {
                 self?.stopLoader()
                 self?.image.image = UIImage(systemName: "popcorn.fill")
                 return
             }
             self?.stopLoader()
-            self?.image.image = image
+            self?.image.image = uiImage
         }
+        stopLoader()
     }
 }
 
