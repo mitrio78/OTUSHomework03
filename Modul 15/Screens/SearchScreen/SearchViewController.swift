@@ -113,9 +113,10 @@ extension SearchViewController: UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as? CustomCell else {
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as? MovieCell else {
             return UITableViewCell()
         }
+
         cell.set(delegate: self)
         cell.set(model: movies[indexPath.row])
         return cell
@@ -142,7 +143,7 @@ extension SearchViewController: UISearchBarDelegate {
 
 // MARK: - CustomCellDelegate
 
-extension SearchViewController: CustomCellDelegate {
+extension SearchViewController: MovieCellDelegate {
     func uploadImages(for id: String, image urlString: String, completion: ((UIImage?) -> Void)?) {
         DispatchQueue.global(qos: .background).async { [weak self] in
             guard let cacheImage = self?.movies.first(where: { $0.id == id })?.image else {
@@ -184,6 +185,12 @@ fileprivate extension SearchViewController {
             setOMDBInterface()
         }
         repeatSearch()
+    }
+
+    @objc
+    func openFavorites() {
+        let favVC = FavoritesViewController()
+        navigationController?.pushViewController(favVC, animated: true)
     }
 
     // MARK: - Private Methods
@@ -268,7 +275,7 @@ fileprivate extension SearchViewController {
             ),
             style: .plain,
             target: self,
-            action: nil
+            action: #selector(openFavorites)
         )
     }
 
@@ -292,7 +299,7 @@ fileprivate extension SearchViewController {
         searchBar.delegate = self
         tableView.delegate = self
         tableView.dataSource = self
-        tableView.register(CustomCell.self, forCellReuseIdentifier: "cell")
+        tableView.register(MovieCell.self, forCellReuseIdentifier: "cell")
     }
 
     func setupConstraints() {

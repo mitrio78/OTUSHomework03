@@ -7,15 +7,15 @@
 import SnapKit
 import UIKit
 
-protocol CustomCellDelegate: AnyObject {
+protocol MovieCellDelegate: AnyObject {
     func uploadImages(for id: String, image urlString: String, completion: ((UIImage?) -> Void)?)
 }
 
 // MARK: - Custom Cell
 
-final class CustomCell: UITableViewCell {
+final class MovieCell: UITableViewCell {
 
-    weak var delegate: CustomCellDelegate?
+    weak var delegate: MovieCellDelegate?
 
     private var imageUrlString: String? {
         didSet {
@@ -65,7 +65,7 @@ final class CustomCell: UITableViewCell {
         self.imageUrlString = model.imageURL
     }
 
-    public func set(delegate: CustomCellDelegate) {
+    public func set(delegate: MovieCellDelegate) {
         self.delegate = delegate
     }
 
@@ -80,7 +80,7 @@ final class CustomCell: UITableViewCell {
 
 // MARK: - Private Methods
 
-fileprivate extension CustomCell {
+fileprivate extension MovieCell {
     func setupViews() {
         contentView.addSubview(image)
         contentView.addSubview(title)
@@ -146,7 +146,7 @@ fileprivate extension CustomCell {
 
 // MARK: - Constants
 
-fileprivate extension CustomCell {
+fileprivate extension MovieCell {
     enum Constants {
         static let titleFont: UIFont = .systemFont(ofSize: 16, weight: .semibold)
         static let textFont: UIFont = .systemFont(ofSize: 14, weight: .regular)
