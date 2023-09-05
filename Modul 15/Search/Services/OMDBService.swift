@@ -4,6 +4,7 @@
 //  Created by Dmitriy Grishechko on 14.05.2023.
 //
 
+import CoreServicesTest
 import UIKit
 
 // MARK: - SearchService

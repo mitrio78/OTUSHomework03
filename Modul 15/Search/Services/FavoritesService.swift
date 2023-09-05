@@ -5,6 +5,7 @@
 //  Created by Dmitriy Grishechko on 03.09.2023.
 //
 
+import CoreServicesTest
 import Foundation
 
 // MARK: - FavoritesServiceProtocol

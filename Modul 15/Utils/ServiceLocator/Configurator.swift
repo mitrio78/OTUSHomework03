@@ -5,6 +5,7 @@
 //  Created by Dmitriy Grishechko on 05.09.2023.
 //
 
+import CoreServicesTest
 import Foundation
 
 final class Configurator {
