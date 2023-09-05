@@ -7,15 +7,15 @@
 import SnapKit
 import UIKit
 
-protocol CustomCellDelegate: AnyObject {
-    func uploadImages(for id: String, image urlString: String, completion: ((UIImage?) -> Void)?)
+protocol MovieCellDelegate: AnyObject {
+    func uploadImages(for id: String, image urlString: String, completion: ((Data?) -> Void)?)
 }
 
 // MARK: - Custom Cell
 
-final class CustomCell: UITableViewCell {
+final class MovieCell: UITableViewCell {
 
-    weak var delegate: CustomCellDelegate?
+    weak var delegate: MovieCellDelegate?
 
     private var imageUrlString: String? {
         didSet {
@@ -61,11 +61,13 @@ final class CustomCell: UITableViewCell {
         movieId = model.id
         title.text = model.title
         textView.text = model.description
-        image.image = model.image
+        if let imageData = model.image {
+            image.image = UIImage(data: imageData)
+        }
         self.imageUrlString = model.imageURL
     }
 
-    public func set(delegate: CustomCellDelegate) {
+    public func set(delegate: MovieCellDelegate) {
         self.delegate = delegate
     }
 
@@ -80,7 +82,7 @@ final class CustomCell: UITableViewCell {
 
 // MARK: - Private Methods
 
-fileprivate extension CustomCell {
+fileprivate extension MovieCell {
     func setupViews() {
         contentView.addSubview(image)
         contentView.addSubview(title)
@@ -133,20 +135,21 @@ fileprivate extension CustomCell {
         }
 
         delegate?.uploadImages(for: movieId, image: url) { [weak self] image in
-            guard let image = image else {
+            guard let imageData = image, let uiImage = UIImage(data: imageData) else {
                 self?.stopLoader()
                 self?.image.image = UIImage(systemName: "popcorn.fill")
                 return
             }
             self?.stopLoader()
-            self?.image.image = image
+            self?.image.image = uiImage
         }
+        stopLoader()
     }
 }
 
 // MARK: - Constants
 
-fileprivate extension CustomCell {
+fileprivate extension MovieCell {
     enum Constants {
         static let titleFont: UIFont = .systemFont(ofSize: 16, weight: .semibold)
         static let textFont: UIFont = .systemFont(ofSize: 14, weight: .regular)

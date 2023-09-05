@@ -1,6 +1,15 @@
 {
   "pins" : [
     {
+      "identity" : "coreservicestest",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/mitrio78/CoreServicesTest.git",
+      "state" : {
+        "branch" : "main",
+        "revision" : "e15cbf8017704346fe1823f4a558e5d6b092a489"
+      }
+    },
+    {
       "identity" : "snapkit",
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/SnapKit/SnapKit",

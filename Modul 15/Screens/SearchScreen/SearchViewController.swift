@@ -13,8 +13,9 @@ final class SearchViewController: UIViewController {
 
     // MARK: - Properties
 
-    var kinopoiskService: SearchServiceProtocol!
-    var omdbService: SearchServiceProtocol!
+    private var kinopoiskService: SearchServiceProtocol!
+    private var omdbService: SearchServiceProtocol!
+    private var storage: FavoritesServiceProtocol!
 
     // MARK: - Private Properties
 
@@ -77,9 +78,8 @@ final class SearchViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        configureServices()
         hideKeyboardWhenTappedAround()
-        kinopoiskService = KinopoiskSearchService()
-        omdbService = OMDBSearchService()
         setupNavigationBar()
         setupViews()
         setupConstraints()
@@ -102,6 +102,25 @@ extension SearchViewController: UITableViewDelegate {
         detailsVC.set(movie: movies[indexPath.row])
         navigationController?.pushViewController(detailsVC, animated: true)
     }
+
+    func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+        let action = UIContextualAction(
+            style: .normal,
+            title: nil
+        ) { [weak self] (action, view, completionHandler) in
+            guard let self = self else {
+                return
+            }
+
+            self.handleAddToFavorite(self.movies[indexPath.row])
+            completionHandler(true)
+        }
+
+        action.backgroundColor = .systemYellow
+        action.image = UIImage(systemName: "star.fill")
+
+        return UISwipeActionsConfiguration(actions: [action])
+    }
 }
 
 // MARK: - UITableViewDataSource
@@ -113,9 +132,10 @@ extension SearchViewController: UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as? CustomCell else {
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as? MovieCell else {
             return UITableViewCell()
         }
+
         cell.set(delegate: self)
         cell.set(model: movies[indexPath.row])
         return cell
@@ -142,14 +162,15 @@ extension SearchViewController: UISearchBarDelegate {
 
 // MARK: - CustomCellDelegate
 
-extension SearchViewController: CustomCellDelegate {
-    func uploadImages(for id: String, image urlString: String, completion: ((UIImage?) -> Void)?) {
+extension SearchViewController: MovieCellDelegate {
+    func uploadImages(for id: String, image urlString: String, completion: ((Data?) -> Void)?) {
         DispatchQueue.global(qos: .background).async { [weak self] in
             guard let cacheImage = self?.movies.first(where: { $0.id == id })?.image else {
                 self?.currentSearchService.getImage(urlString: urlString) { image in
                     if let movieIndex = self?.movies.firstIndex(where: { $0.id == id }) {
                         self?.movies[movieIndex].image = image
                     }
+
                     DispatchQueue.main.async {
                         completion?(image)
                     }
@@ -186,7 +207,25 @@ fileprivate extension SearchViewController {
         repeatSearch()
     }
 
+    @objc
+    func openFavorites() {
+        let favVC = FavoritesViewController()
+        navigationController?.pushViewController(favVC, animated: true)
+    }
+
+    // MARK: - Swipe Actions
+
+    private func handleAddToFavorite(_ movie: MovieDisplayModel) {
+        storage.save(movie)
+    }
+
     // MARK: - Private Methods
+
+    func configureServices() {
+        kinopoiskService = DI.shared.kinopoiskSearch
+        omdbService = DI.shared.omdbSearch
+        storage = DI.shared.favouritesService
+    }
 
     func fetchData(searchText: String) {
         currentSearchService.handleRequest(searchText: searchText) { [weak self] searchResult, errorMessage in
@@ -268,7 +307,7 @@ fileprivate extension SearchViewController {
             ),
             style: .plain,
             target: self,
-            action: nil
+            action: #selector(openFavorites)
         )
     }
 
@@ -292,7 +331,7 @@ fileprivate extension SearchViewController {
         searchBar.delegate = self
         tableView.delegate = self
         tableView.dataSource = self
-        tableView.register(CustomCell.self, forCellReuseIdentifier: "cell")
+        tableView.register(MovieCell.self, forCellReuseIdentifier: "cell")
     }
 
     func setupConstraints() {

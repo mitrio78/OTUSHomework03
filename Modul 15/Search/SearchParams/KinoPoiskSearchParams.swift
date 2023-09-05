@@ -4,6 +4,7 @@
 //
 //  Created by Dmitriy Grishechko on 29.08.2023.
 //
+import CoreServicesTest
 
 struct KinoPoiskSearchParams: SearchParametersProtocol {
     var netProtocol: NetworkProtocol = .https

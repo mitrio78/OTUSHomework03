@@ -4,16 +4,16 @@
 //  Created by Dmitriy Grishechko on 14.05.2023.
 //
 
-import UIKit
+import Foundation
 
 enum SearchServiceType {
     case kinopoisk
     case omdb
 }
 
-struct MovieDisplayModel {
+struct MovieDisplayModel: Codable {
     var id: String
-    var image: UIImage?
+    var image: Data?
     var imageURL: String?
     var title: String
     var description: String

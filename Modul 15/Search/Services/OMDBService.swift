@@ -4,6 +4,7 @@
 //  Created by Dmitriy Grishechko on 14.05.2023.
 //
 
+import CoreServicesTest
 import UIKit
 
 // MARK: - SearchService
@@ -12,15 +13,24 @@ final class OMDBSearchService: SearchServiceProtocol {
 
     // MARK: - Private properties
 
-    var networkService: NetworkServiceProtocol {
-        NetworkService.shared
-    }
+    @Injected private var networkService: NetworkService!
     
     // MARK: - Methods
 
     func handleRequest(searchText: String, completion: (([MovieDisplayModel], String?) -> Void)?) {
         omdbSearch(searchText: searchText) { movies, error in
             completion?(movies, error)
+        }
+    }
+    
+    func getImage(urlString: String?, completion: ((Data?) -> Void)?) {
+        guard let urlString = urlString else {
+            completion?(nil)
+            return
+        }
+
+        networkService.loadData(urlString: urlString) { image in
+            completion?(image)
         }
     }
 }
