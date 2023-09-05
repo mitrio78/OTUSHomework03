@@ -8,17 +8,11 @@ import UIKit
 
 // MARK: - Network API Service
 
-struct NetworkService: NetworkServiceProtocol {
-
-    // MARK: - Singleton
-    
-    public static let shared: NetworkService = NetworkService()
-    
-    private init() { }
+final class NetworkService: NetworkServiceProtocol {
 
     // MARK: - Methods
 
-    func loadImage(urlString: String, completion: ((Data?) -> Void)?) {
+    func loadData(urlString: String, completion: ((Data?) -> Void)?) {
         DispatchQueue.global(qos: .userInitiated).async {
             guard
                 let url = URL(string: urlString),

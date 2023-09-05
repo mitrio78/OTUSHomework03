@@ -22,7 +22,7 @@ final class FavoritesViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        favoritesService = FavoritesService.shared
+        favoritesService = DI.shared.favouritesService
         movies = favoritesService.loadFavorites()
         setupViews()
         setupConstraints()
@@ -57,15 +57,8 @@ extension FavoritesViewController: UITableViewDataSource {
             return UITableViewCell()
         }
 
-        cell.set(delegate: self)
         cell.set(model: movies[indexPath.row])
         return cell
-    }
-}
-
-extension FavoritesViewController: MovieCellDelegate {
-    func uploadImages(for id: String, image urlString: String, completion: ((Data?) -> Void)?) {
-        // TODO: - upload images
     }
 }
 

@@ -7,18 +7,20 @@
 
 import Foundation
 
+// MARK: - FavoritesServiceProtocol
+
 protocol FavoritesServiceProtocol {
     func save(_ movie: MovieDisplayModel)
     func loadFavorites() -> [MovieDisplayModel]
 }
 
+// MARK: - FavoritesService
+
 final class FavoritesService: FavoritesServiceProtocol {
 
-    private init() { }
+    // MARK: - Properties
 
-    static let shared: FavoritesServiceProtocol = FavoritesService()
-
-    private var storage: StorageServiceProtocol = StorageService.shared
+    @Injected private var storage: StorageService!
 
     func save(_ movie: MovieDisplayModel) {
         var movies = loadFavorites()

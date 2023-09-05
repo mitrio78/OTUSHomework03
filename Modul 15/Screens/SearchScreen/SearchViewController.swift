@@ -13,9 +13,9 @@ final class SearchViewController: UIViewController {
 
     // MARK: - Properties
 
-    var kinopoiskService: SearchServiceProtocol!
-    var omdbService: SearchServiceProtocol!
-    var storage: FavoritesServiceProtocol!
+    private var kinopoiskService: SearchServiceProtocol!
+    private var omdbService: SearchServiceProtocol!
+    private var storage: FavoritesServiceProtocol!
 
     // MARK: - Private Properties
 
@@ -78,10 +78,8 @@ final class SearchViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        configureServices()
         hideKeyboardWhenTappedAround()
-        kinopoiskService = KinopoiskSearchService()
-        omdbService = OMDBSearchService()
-        storage = FavoritesService.shared
         setupNavigationBar()
         setupViews()
         setupConstraints()
@@ -222,6 +220,12 @@ fileprivate extension SearchViewController {
     }
 
     // MARK: - Private Methods
+
+    func configureServices() {
+        kinopoiskService = DI.shared.kinopoiskSearch
+        omdbService = DI.shared.omdbSearch
+        storage = DI.shared.favouritesService
+    }
 
     func fetchData(searchText: String) {
         currentSearchService.handleRequest(searchText: searchText) { [weak self] searchResult, errorMessage in

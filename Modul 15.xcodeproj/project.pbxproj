@@ -15,6 +15,10 @@
 		164D89D429DDCD16005D493F /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 164D89D229DDCD16005D493F /* LaunchScreen.storyboard */; };
 		1654772629DDDB1B003DBFE3 /* CustomCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1654772529DDDB1B003DBFE3 /* CustomCell.swift */; };
 		1654772829DDDCDA003DBFE3 /* OMDB.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1654772729DDDCDA003DBFE3 /* OMDB.swift */; };
+		CA003FE62AA79B3D003F7D77 /* DI.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA003FE52AA79B3D003F7D77 /* DI.swift */; };
+		CA003FE92AA79E1C003F7D77 /* ServiceLocator.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA003FE82AA79E1C003F7D77 /* ServiceLocator.swift */; };
+		CA003FEB2AA79FA4003F7D77 /* Configurator.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA003FEA2AA79FA4003F7D77 /* Configurator.swift */; };
+		CA003FEE2AA7A080003F7D77 /* Injected.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA003FED2AA7A080003F7D77 /* Injected.swift */; };
 		CA59AD7E2A9E4479006A442B /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = CA59AD7D2A9E4479006A442B /* SnapKit */; };
 		CA59AD822A9E45D0006A442B /* KinopoiskService.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA59AD812A9E45D0006A442B /* KinopoiskService.swift */; };
 		CA59AD862A9E461F006A442B /* KinoPoiskSearchParams.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA59AD852A9E461F006A442B /* KinoPoiskSearchParams.swift */; };
@@ -47,6 +51,10 @@
 		164D89D529DDCD16005D493F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		1654772529DDDB1B003DBFE3 /* CustomCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomCell.swift; sourceTree = "<group>"; };
 		1654772729DDDCDA003DBFE3 /* OMDB.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OMDB.swift; sourceTree = "<group>"; };
+		CA003FE52AA79B3D003F7D77 /* DI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DI.swift; sourceTree = "<group>"; };
+		CA003FE82AA79E1C003F7D77 /* ServiceLocator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServiceLocator.swift; sourceTree = "<group>"; };
+		CA003FEA2AA79FA4003F7D77 /* Configurator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Configurator.swift; sourceTree = "<group>"; };
+		CA003FED2AA7A080003F7D77 /* Injected.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Injected.swift; sourceTree = "<group>"; };
 		CA59AD812A9E45D0006A442B /* KinopoiskService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KinopoiskService.swift; sourceTree = "<group>"; };
 		CA59AD852A9E461F006A442B /* KinoPoiskSearchParams.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KinoPoiskSearchParams.swift; sourceTree = "<group>"; };
 		CA59AD872A9E462D006A442B /* OMDBSearchParams.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OMDBSearchParams.swift; sourceTree = "<group>"; };
@@ -122,6 +130,9 @@
 		1654772929DDF0E9003DBFE3 /* Utils */ = {
 			isa = PBXGroup;
 			children = (
+				CA003FEC2AA7A071003F7D77 /* Wrappers */,
+				CA003FE72AA79E06003F7D77 /* ServiceLocator */,
+				CA003FE42AA79B2D003F7D77 /* DI */,
 				CA59AD7B2A9E42DD006A442B /* Extensions */,
 				164D89C729DDCD15005D493F /* AppDelegate.swift */,
 				164D89C929DDCD15005D493F /* SceneDelegate.swift */,
@@ -164,6 +175,31 @@
 				1654772B29DDF108003DBFE3 /* Cell */,
 			);
 			path = Screens;
+			sourceTree = "<group>";
+		};
+		CA003FE42AA79B2D003F7D77 /* DI */ = {
+			isa = PBXGroup;
+			children = (
+				CA003FE52AA79B3D003F7D77 /* DI.swift */,
+			);
+			path = DI;
+			sourceTree = "<group>";
+		};
+		CA003FE72AA79E06003F7D77 /* ServiceLocator */ = {
+			isa = PBXGroup;
+			children = (
+				CA003FE82AA79E1C003F7D77 /* ServiceLocator.swift */,
+				CA003FEA2AA79FA4003F7D77 /* Configurator.swift */,
+			);
+			path = ServiceLocator;
+			sourceTree = "<group>";
+		};
+		CA003FEC2AA7A071003F7D77 /* Wrappers */ = {
+			isa = PBXGroup;
+			children = (
+				CA003FED2AA7A080003F7D77 /* Injected.swift */,
+			);
+			path = Wrappers;
 			sourceTree = "<group>";
 		};
 		CA59AD7B2A9E42DD006A442B /* Extensions */ = {
@@ -329,10 +365,12 @@
 				CA59AD822A9E45D0006A442B /* KinopoiskService.swift in Sources */,
 				CAA35D3A2A110274002E13FD /* KinoPoisk.swift in Sources */,
 				CA59AD9D2AA52ABE006A442B /* FavoritesService.swift in Sources */,
+				CA003FE92AA79E1C003F7D77 /* ServiceLocator.swift in Sources */,
 				CA59AD962AA50BF5006A442B /* StorageServiceProtocol.swift in Sources */,
 				164D89CC29DDCD15005D493F /* SearchViewController.swift in Sources */,
 				1654772629DDDB1B003DBFE3 /* CustomCell.swift in Sources */,
 				CA59AD942AA50BE5006A442B /* StorageService.swift in Sources */,
+				CA003FE62AA79B3D003F7D77 /* DI.swift in Sources */,
 				1654772829DDDCDA003DBFE3 /* OMDB.swift in Sources */,
 				164D89C829DDCD15005D493F /* AppDelegate.swift in Sources */,
 				CAA35D342A0FC6D4002E13FD /* DetailsViewController.swift in Sources */,
@@ -342,9 +380,11 @@
 				CAA35D3C2A1102BA002E13FD /* MoviesModel.swift in Sources */,
 				CA59AD992AA50CBC006A442B /* FavoritesViewController.swift in Sources */,
 				CAA35D3E2A11425A002E13FD /* UIViewController+HideKeyboard.swift in Sources */,
+				CA003FEB2AA79FA4003F7D77 /* Configurator.swift in Sources */,
 				CA59AD8E2AA4F501006A442B /* HTTPMethod.swift in Sources */,
 				CA59AD902AA4F561006A442B /* NetProtocol.swift in Sources */,
 				164D89CA29DDCD15005D493F /* SceneDelegate.swift in Sources */,
+				CA003FEE2AA7A080003F7D77 /* Injected.swift in Sources */,
 				161FB3882A0D453100C1F8A2 /* NetworkService.swift in Sources */,
 				CA59AD862A9E461F006A442B /* KinoPoiskSearchParams.swift in Sources */,
 				CA59AD9B2AA52601006A442B /* StorageKeys.swift in Sources */,

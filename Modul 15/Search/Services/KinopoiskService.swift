@@ -13,14 +13,23 @@ final class KinopoiskSearchService: SearchServiceProtocol {
 
     // MARK: - Properties
 
-    var networkService: NetworkServiceProtocol {
-        NetworkService.shared
-    }
+    @Injected private var networkService: NetworkService!
 
     // MARK: - Methods
 
     func handleRequest(searchText: String, completion: (([MovieDisplayModel], String?) -> Void)?) {
         kinoPoiskSearch(searchText: searchText, completion: completion)
+    }
+
+    func getImage(urlString: String?, completion: ((Data?) -> Void)?) {
+        guard let urlString = urlString else {
+            completion?(nil)
+            return
+        }
+
+        networkService.loadData(urlString: urlString) { image in
+            completion?(image)
+        }
     }
 }
 

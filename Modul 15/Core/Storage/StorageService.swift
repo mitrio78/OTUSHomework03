@@ -7,13 +7,15 @@
 
 import Foundation
 
+// MARK: - StorageService
+
 public final class StorageService: StorageServiceProtocol {
 
-    public static var shared: StorageServiceProtocol = StorageService()
+    // MARK: - Private Properties
 
     private var userDefaults = UserDefaults.standard
 
-    private init() { }
+    // MARK: - Methods
 
     public func save<T: Codable>(_ incomingData: T) {
         let encoder = JSONEncoder()
