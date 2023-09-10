@@ -14,7 +14,6 @@
 		164D89D429DDCD16005D493F /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 164D89D229DDCD16005D493F /* LaunchScreen.storyboard */; };
 		1654772629DDDB1B003DBFE3 /* CustomCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1654772529DDDB1B003DBFE3 /* CustomCell.swift */; };
 		1654772829DDDCDA003DBFE3 /* OMDB.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1654772729DDDCDA003DBFE3 /* OMDB.swift */; };
-		CA003FE62AA79B3D003F7D77 /* DI.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA003FE52AA79B3D003F7D77 /* DI.swift */; };
 		CA003FE92AA79E1C003F7D77 /* ServiceLocator.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA003FE82AA79E1C003F7D77 /* ServiceLocator.swift */; };
 		CA003FEB2AA79FA4003F7D77 /* Configurator.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA003FEA2AA79FA4003F7D77 /* Configurator.swift */; };
 		CA003FEE2AA7A080003F7D77 /* Injected.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA003FED2AA7A080003F7D77 /* Injected.swift */; };
@@ -43,7 +42,6 @@
 		164D89D529DDCD16005D493F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		1654772529DDDB1B003DBFE3 /* CustomCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomCell.swift; sourceTree = "<group>"; };
 		1654772729DDDCDA003DBFE3 /* OMDB.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OMDB.swift; sourceTree = "<group>"; };
-		CA003FE52AA79B3D003F7D77 /* DI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DI.swift; sourceTree = "<group>"; };
 		CA003FE82AA79E1C003F7D77 /* ServiceLocator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServiceLocator.swift; sourceTree = "<group>"; };
 		CA003FEA2AA79FA4003F7D77 /* Configurator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Configurator.swift; sourceTree = "<group>"; };
 		CA003FED2AA7A080003F7D77 /* Injected.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Injected.swift; sourceTree = "<group>"; };
@@ -117,7 +115,6 @@
 			children = (
 				CA003FEC2AA7A071003F7D77 /* Wrappers */,
 				CA003FE72AA79E06003F7D77 /* ServiceLocator */,
-				CA003FE42AA79B2D003F7D77 /* DI */,
 				CA59AD7B2A9E42DD006A442B /* Extensions */,
 				164D89C729DDCD15005D493F /* AppDelegate.swift */,
 				164D89C929DDCD15005D493F /* SceneDelegate.swift */,
@@ -160,14 +157,6 @@
 				1654772B29DDF108003DBFE3 /* Cell */,
 			);
 			path = Screens;
-			sourceTree = "<group>";
-		};
-		CA003FE42AA79B2D003F7D77 /* DI */ = {
-			isa = PBXGroup;
-			children = (
-				CA003FE52AA79B3D003F7D77 /* DI.swift */,
-			);
-			path = DI;
 			sourceTree = "<group>";
 		};
 		CA003FE72AA79E06003F7D77 /* ServiceLocator */ = {
@@ -315,7 +304,6 @@
 				CA003FE92AA79E1C003F7D77 /* ServiceLocator.swift in Sources */,
 				164D89CC29DDCD15005D493F /* SearchViewController.swift in Sources */,
 				1654772629DDDB1B003DBFE3 /* CustomCell.swift in Sources */,
-				CA003FE62AA79B3D003F7D77 /* DI.swift in Sources */,
 				1654772829DDDCDA003DBFE3 /* OMDB.swift in Sources */,
 				164D89C829DDCD15005D493F /* AppDelegate.swift in Sources */,
 				CAA35D342A0FC6D4002E13FD /* DetailsViewController.swift in Sources */,
