@@ -12,7 +12,7 @@ final class FavoritesViewController: UIViewController {
 
     private var movies: [MovieDisplayModel] = []
 
-    private var favoritesService: FavoritesServiceProtocol!
+    @Injected private var favoritesService: FavoritesService!
 
     private lazy var tableView: UITableView = {
         let tableView = UITableView()
@@ -22,7 +22,6 @@ final class FavoritesViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        favoritesService = DI.shared.favouritesService
         movies = favoritesService.loadFavorites()
         setupViews()
         setupConstraints()
