@@ -19,3 +19,11 @@ struct MovieDisplayModel: Codable {
     var description: String
     var fullDescription: String?
 }
+
+struct MovieGridModel: Codable, Identifiable {
+    var id: String = ""
+    var image: String = ""
+    var title: String = ""
+    var description: String = ""
+    var fullDescription: String = ""
+}

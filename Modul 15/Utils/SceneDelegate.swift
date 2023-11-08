@@ -5,6 +5,7 @@
 //  Created by Dmitriy Grishechko on 05.04.2023.
 //
 
+import SwiftUI
 import UIKit
 
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
@@ -14,9 +15,9 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
         guard let windowScene = (scene as? UIWindowScene) else { return }
         window = UIWindow(windowScene: windowScene)
-        let vc = SearchViewController()
-        let navVC = UINavigationController(rootViewController: vc)
-        window?.rootViewController = navVC
+        let searchScreen = MainTabView().environmentObject(Router())
+        let host = UIHostingController(rootView: searchScreen)
+        window?.rootViewController = host
         window?.makeKeyAndVisible()
     }
 

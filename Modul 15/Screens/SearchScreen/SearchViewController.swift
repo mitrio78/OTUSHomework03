@@ -321,6 +321,7 @@ fileprivate extension SearchViewController {
         view.addSubview(activityIndicator)
         view.addSubview(errorLabel)
         view.addSubview(serviceButton)
+
         searchBar.delegate = self
         tableView.delegate = self
         tableView.dataSource = self
@@ -332,6 +333,7 @@ fileprivate extension SearchViewController {
             $0.top.equalTo(view.safeAreaLayoutGuide)
             $0.leading.trailing.equalToSuperview()
             $0.bottom.equalTo(tableView.snp.top)
+            $0.height.equalTo(82)
         }
 
         tableView.snp.makeConstraints {
@@ -368,5 +370,25 @@ fileprivate extension SearchViewController {
         static let errorLabelFont: UIFont = .systemFont(ofSize: 24, weight: .semibold)
         static let errorLabelInsets: CGFloat = 16
         static let numberOfDisplayedResults: Int = 10
+    }
+}
+
+import SwiftUI
+
+struct SearchViewControllerProvider: PreviewProvider {
+    static var previews: some View {
+        ContainerView().edgesIgnoringSafeArea(.all)
+    }
+
+    struct ContainerView: UIViewControllerRepresentable {
+
+        let viewController = SearchViewController()
+
+        func makeUIViewController(context: UIViewControllerRepresentableContext<SearchViewControllerProvider.ContainerView>) -> SearchViewController {
+            return viewController
+        }
+
+        func updateUIViewController(_ uiViewController: SearchViewControllerProvider.ContainerView.UIViewControllerType, context: UIViewControllerRepresentableContext<SearchViewControllerProvider.ContainerView>) {
+        }
     }
 }

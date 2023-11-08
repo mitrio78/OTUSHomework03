@@ -45,6 +45,7 @@ final class FavoritesViewController: UIViewController {
 // MARK: - UITableViewDelegate
 
 extension FavoritesViewController: UITableViewDelegate {
+    
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         Constants.rowHeight
     }
@@ -63,6 +64,7 @@ extension FavoritesViewController: UITableViewDelegate {
 // MARK: - UITableViewDataSource
 
 extension FavoritesViewController: UITableViewDataSource {
+
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return movies.count
     }
