@@ -20,5 +20,6 @@ final class Configurator {
         ServiceLocator.shared.add(object: KinopoiskSearchService())
         ServiceLocator.shared.add(object: OMDBSearchService())
         ServiceLocator.shared.add(object: FavoritesService())
+        ServiceLocator.shared.add(object: SearchInteractor())
     }
 }

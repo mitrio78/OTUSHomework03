@@ -18,6 +18,8 @@
 		CA003FEB2AA79FA4003F7D77 /* Configurator.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA003FEA2AA79FA4003F7D77 /* Configurator.swift */; };
 		CA003FEE2AA7A080003F7D77 /* Injected.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA003FED2AA7A080003F7D77 /* Injected.swift */; };
 		CA003FFA2AA7B47A003F7D77 /* CoreServicesTest in Frameworks */ = {isa = PBXBuildFile; productRef = CA003FF92AA7B47A003F7D77 /* CoreServicesTest */; };
+		CA1299192AFBFD6B009CE23E /* SearchInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA1299182AFBFD6B009CE23E /* SearchInteractor.swift */; };
+		CA12991B2AFBFD92009CE23E /* SearchProtocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA12991A2AFBFD92009CE23E /* SearchProtocols.swift */; };
 		CA59AD7E2A9E4479006A442B /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = CA59AD7D2A9E4479006A442B /* SnapKit */; };
 		CA59AD822A9E45D0006A442B /* KinopoiskService.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA59AD812A9E45D0006A442B /* KinopoiskService.swift */; };
 		CA59AD862A9E461F006A442B /* KinoPoiskSearchParams.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA59AD852A9E461F006A442B /* KinoPoiskSearchParams.swift */; };
@@ -45,6 +47,8 @@
 		CA003FE82AA79E1C003F7D77 /* ServiceLocator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServiceLocator.swift; sourceTree = "<group>"; };
 		CA003FEA2AA79FA4003F7D77 /* Configurator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Configurator.swift; sourceTree = "<group>"; };
 		CA003FED2AA7A080003F7D77 /* Injected.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Injected.swift; sourceTree = "<group>"; };
+		CA1299182AFBFD6B009CE23E /* SearchInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchInteractor.swift; sourceTree = "<group>"; };
+		CA12991A2AFBFD92009CE23E /* SearchProtocols.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchProtocols.swift; sourceTree = "<group>"; };
 		CA59AD812A9E45D0006A442B /* KinopoiskService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KinopoiskService.swift; sourceTree = "<group>"; };
 		CA59AD852A9E461F006A442B /* KinoPoiskSearchParams.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KinoPoiskSearchParams.swift; sourceTree = "<group>"; };
 		CA59AD872A9E462D006A442B /* OMDBSearchParams.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OMDBSearchParams.swift; sourceTree = "<group>"; };
@@ -126,6 +130,8 @@
 			isa = PBXGroup;
 			children = (
 				164D89CB29DDCD15005D493F /* SearchViewController.swift */,
+				CA1299182AFBFD6B009CE23E /* SearchInteractor.swift */,
+				CA12991A2AFBFD92009CE23E /* SearchProtocols.swift */,
 			);
 			path = SearchScreen;
 			sourceTree = "<group>";
@@ -307,11 +313,13 @@
 				1654772829DDDCDA003DBFE3 /* OMDB.swift in Sources */,
 				164D89C829DDCD15005D493F /* AppDelegate.swift in Sources */,
 				CAA35D342A0FC6D4002E13FD /* DetailsViewController.swift in Sources */,
+				CA12991B2AFBFD92009CE23E /* SearchProtocols.swift in Sources */,
 				CAA35D362A10E7DB002E13FD /* OMDBService.swift in Sources */,
 				CA59AD882A9E462D006A442B /* OMDBSearchParams.swift in Sources */,
 				CAA35D3C2A1102BA002E13FD /* MoviesModel.swift in Sources */,
 				CA59AD992AA50CBC006A442B /* FavoritesViewController.swift in Sources */,
 				CAA35D3E2A11425A002E13FD /* UIViewController+HideKeyboard.swift in Sources */,
+				CA1299192AFBFD6B009CE23E /* SearchInteractor.swift in Sources */,
 				CA003FEB2AA79FA4003F7D77 /* Configurator.swift in Sources */,
 				164D89CA29DDCD15005D493F /* SceneDelegate.swift in Sources */,
 				CA003FEE2AA7A080003F7D77 /* Injected.swift in Sources */,

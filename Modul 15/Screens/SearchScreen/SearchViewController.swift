@@ -4,6 +4,7 @@
 //  Created by Dmitriy Grishechko on 05.04.2023.
 //
 
+import Combine
 import SnapKit
 import UIKit
 
@@ -11,26 +12,17 @@ import UIKit
 
 final class SearchViewController: UIViewController {
 
-    // MARK: - Properties
+    // MARK: - Dependencies
 
-    @Injected private var kinopoiskService: KinopoiskSearchService!
-    @Injected private var omdbService: OMDBSearchService!
-    @Injected private var storage: FavoritesService!
+    @Injected private var interactor: SearchInteractor!
 
     // MARK: - Private Properties
 
-    private var movies: [MovieDisplayModel] = []
-    private var timer: Timer?
-    private var currentSearchService: SearchServiceProtocol {
-        switch searchType {
-        case .kinopoisk:
-            return kinopoiskService
+    private var cancellableMovies: AnyCancellable?
+    private var cancellableLoader: AnyCancellable?
+    private var cancellableSearchMode: AnyCancellable?
 
-        case .omdb:
-            return omdbService
-        }
-    }
-    private var searchType: SearchServiceType = .omdb
+    private var movies: [MovieDisplayModel] = []
 
     // MARK: - UI
 
@@ -70,7 +62,7 @@ final class SearchViewController: UIViewController {
         button.layer.cornerRadius = 20
         button.titleLabel?.font = .systemFont(ofSize: 18, weight: .bold)
         button.titleLabel?.textColor = .white
-        button.addTarget(nil, action: #selector(switchService), for: .touchUpInside)
+        button.addTarget(nil, action: #selector(toggleService), for: .touchUpInside)
         return button
     }()
 
@@ -82,6 +74,7 @@ final class SearchViewController: UIViewController {
         setupNavigationBar()
         setupViews()
         setupConstraints()
+        setObservers()
     }
 }
 
@@ -107,15 +100,11 @@ extension SearchViewController: UITableViewDelegate {
             style: .normal,
             title: nil
         ) { [weak self] (action, view, completionHandler) in
-            guard let self = self else {
-                return
-            }
-
-            self.handleAddToFavorite(self.movies[indexPath.row])
+            self?.interactor.addToFavorites(indexPath.row)
             completionHandler(true)
         }
 
-        action.backgroundColor = .systemYellow
+        action.backgroundColor = UIColor.systemMint
         action.image = UIImage(systemName: "star.fill")
 
         return UISwipeActionsConfiguration(actions: [action])
@@ -135,7 +124,7 @@ extension SearchViewController: UITableViewDataSource {
             return UITableViewCell()
         }
 
-        cell.set(delegate: self)
+        cell.set(delegate: interactor)
         cell.set(model: movies[indexPath.row])
         return cell
     }
@@ -146,40 +135,7 @@ extension SearchViewController: UITableViewDataSource {
 extension SearchViewController: UISearchBarDelegate {
 
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
-        guard !searchText.isEmpty, searchText.count > 2 else {
-            return
-        }
-
-        timer?.invalidate()
-
-        timer = Timer.scheduledTimer(withTimeInterval: 0.7, repeats: false) { _ in
-            self.startLoading()
-            self.fetchData(searchText: searchText)
-        }
-    }
-}
-
-// MARK: - CustomCellDelegate
-
-extension SearchViewController: MovieCellDelegate {
-    func uploadImages(for id: String, image urlString: String, completion: ((Data?) -> Void)?) {
-        DispatchQueue.global(qos: .background).async { [weak self] in
-            guard let cacheImage = self?.movies.first(where: { $0.id == id })?.image else {
-                self?.currentSearchService.getImage(urlString: urlString) { image in
-                    if let movieIndex = self?.movies.firstIndex(where: { $0.id == id }) {
-                        self?.movies[movieIndex].image = image
-                    }
-
-                    DispatchQueue.main.async {
-                        completion?(image)
-                    }
-                }
-                return
-            }
-            DispatchQueue.main.async {
-                completion?(cacheImage)
-            }
-        }
+        interactor.searchMovie(searchText)
     }
 }
 
@@ -187,22 +143,37 @@ extension SearchViewController: MovieCellDelegate {
 
 fileprivate extension SearchViewController {
 
+    func setObservers() {
+        cancellableSearchMode = interactor.$searchType.sink { [weak self] searchType in
+            self?.updateSearchType(searchType)
+        }
+
+        cancellableLoader = interactor.$isLoading.sink { [weak self] isLoading in
+            self?.setLoader(isLoading)
+        }
+
+        cancellableMovies = interactor.$movies.sink { [weak self] movies in
+            self?.movies = movies
+            self?.tableView.reloadData()
+        }
+    }
+
+    func updateSearchType(_ searchType: SearchServiceType) {
+        switch searchType {
+        case .kinopoisk:
+            setKinopoiskInterface()
+
+        case .omdb:
+            setOMDBInterface()
+        }
+    }
+
     // MARK: - Button Actions
 
     @objc
-    func switchService() {
-        movies = []
+    func toggleService() {
+        interactor.toggleSearchService()
         tableView.reloadData()
-
-        switch searchType {
-        case .omdb:
-            searchType = .kinopoisk
-            setKinopoiskInterface()
-
-        case .kinopoisk:
-            searchType = .omdb
-            setOMDBInterface()
-        }
         repeatSearch()
     }
 
@@ -212,34 +183,14 @@ fileprivate extension SearchViewController {
         navigationController?.pushViewController(favVC, animated: true)
     }
 
-    // MARK: - Swipe Actions
-
-    private func handleAddToFavorite(_ movie: MovieDisplayModel) {
-        storage.save(movie)
-    }
-
     // MARK: - Private Methods
 
-    func fetchData(searchText: String) {
-        currentSearchService.handleRequest(searchText: searchText) { [weak self] searchResult, errorMessage in
-            if let errorMessage = errorMessage {
-                self?.stopLoading()
-                self?.resetData()
-                DispatchQueue.main.async {
-                    self?.showError("Network error:\n\(errorMessage)")
-                }
-                return
-            }
-
-            self?.movies = searchResult
-
-            DispatchQueue.main.async {
-                self?.tableView.reloadData()
-                self?.stopLoading()
-            }
-        }
+    func setLoader(_ isLoading: Bool) {
+        isLoading
+        ? startLoading()
+        : stopLoading()
     }
-
+    
     func startLoading() {
         errorLabel.isHidden = true
         errorLabel.text = ""
@@ -247,21 +198,17 @@ fileprivate extension SearchViewController {
         activityIndicator.startAnimating()
     }
 
-    func resetData() {
-        movies = []
-        tableView.reloadData()
+    func repeatSearch() {
+        guard let text = searchBar.text, !text.isEmpty else {
+            return
+        }
+
+        interactor.searchMovie(text)
     }
 
     func stopLoading() {
         activityIndicator.isHidden = true
         activityIndicator.stopAnimating()
-    }
-
-    func showError(_ message: String) {
-        movies = []
-        tableView.reloadData()
-        errorLabel.isHidden = false
-        errorLabel.text = message
     }
 
     func setKinopoiskInterface() {
@@ -302,14 +249,6 @@ fileprivate extension SearchViewController {
             target: self,
             action: #selector(openFavorites)
         )
-    }
-
-    func repeatSearch() {
-        guard let text = searchBar.text, !text.isEmpty else {
-            return
-        }
-
-        fetchData(searchText: text)
     }
 
     // MARK: - UI SetUp
