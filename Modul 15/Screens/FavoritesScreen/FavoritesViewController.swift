@@ -5,20 +5,32 @@
 //  Created by Dmitriy Grishechko on 03.09.2023.
 //
 
+// MARK: - Imports
+
 import SnapKit
 import UIKit
 
+// MARK: - FavoritesViewController
+
 final class FavoritesViewController: UIViewController {
+
+    // MARK: - Properties
+
+    // MARK: - Private Properties
 
     private var movies: [MovieDisplayModel] = []
 
     @Injected private var favoritesService: FavoritesService!
+
+    // MARK: - UI Properties
 
     private lazy var tableView: UITableView = {
         let tableView = UITableView()
         tableView.backgroundColor = .systemBackground
         return tableView
     }()
+
+    // MARK: - Life cycle
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -29,6 +41,8 @@ final class FavoritesViewController: UIViewController {
         setupNavigationBar()
     }
 }
+
+// MARK: - UITableViewDelegate
 
 extension FavoritesViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -46,13 +60,17 @@ extension FavoritesViewController: UITableViewDelegate {
     }
 }
 
+// MARK: - UITableViewDataSource
+
 extension FavoritesViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return movies.count
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as? MovieCell else {
+        guard
+            let cell = tableView.dequeueReusableCell(withIdentifier: MovieCell.description(), for: indexPath) as? MovieCell
+        else {
             return UITableViewCell()
         }
 
@@ -61,10 +79,12 @@ extension FavoritesViewController: UITableViewDataSource {
     }
 }
 
+// MARK: - Private properties
+
 fileprivate extension FavoritesViewController {
 
     func setupTableView() {
-        tableView.register(MovieCell.self, forCellReuseIdentifier: "cell")
+        tableView.register(MovieCell.self, forCellReuseIdentifier: MovieCell.description())
         tableView.delegate = self
         tableView.dataSource = self
     }
@@ -88,6 +108,8 @@ fileprivate extension FavoritesViewController {
         ]
     }
 }
+
+// MARK: - Constants
 
 fileprivate extension FavoritesViewController {
     enum Constants {

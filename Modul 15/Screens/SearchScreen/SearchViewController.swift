@@ -343,7 +343,7 @@ fileprivate extension SearchViewController {
             $0.leading.equalToSuperview().offset(24)
             $0.trailing.equalToSuperview().inset(24)
             $0.top.equalTo(tableView.snp.bottom).offset(8)
-            $0.bottom.equalTo(view.safeAreaLayoutGuide)
+            $0.bottom.equalTo(view.safeAreaLayoutGuide).inset(24)
         }
 
         activityIndicator.snp.makeConstraints {
