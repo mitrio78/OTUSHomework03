@@ -8,7 +8,7 @@ import SnapKit
 import UIKit
 
 protocol MovieCellDelegate: AnyObject {
-    func uploadImages(for id: String, image urlString: String, completion: ((Data?) -> Void)?)
+    func uploadImages(for id: String, image urlString: String) async throws -> Data?
 }
 
 // MARK: - Custom Cell
@@ -61,9 +61,11 @@ final class MovieCell: UITableViewCell {
         movieId = model.id
         title.text = model.title
         textView.text = model.description
+
         if let imageData = model.image {
-            image.image = UIImage(data: imageData)
+            self.image.image = UIImage(data: imageData)
         }
+
         self.imageUrlString = model.imageURL
     }
 
@@ -72,11 +74,15 @@ final class MovieCell: UITableViewCell {
     }
 
     // MARK: - Inheritance
-    
-    override func layoutSubviews() {
-        super.layoutSubviews()
+
+    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
+        super.init(style: style, reuseIdentifier: reuseIdentifier)
         setupViews()
         setupConstraints()
+    }
+
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
     }
 }
 
@@ -118,7 +124,6 @@ fileprivate extension MovieCell {
     func initLoader() {
         loader.isHidden = false
         loader.startAnimating()
-
     }
 
     func stopLoader() {
@@ -128,22 +133,29 @@ fileprivate extension MovieCell {
 
     func loadImage(url: String?) {
         initLoader()
+
         guard let url = url else {
             stopLoader()
-            image.image = UIImage(systemName: "popcorn.fill")
+            image.image = Constants.defaultImage
             return
         }
 
-        delegate?.uploadImages(for: movieId, image: url) { [weak self] image in
-            guard let imageData = image, let uiImage = UIImage(data: imageData) else {
-                self?.stopLoader()
-                self?.image.image = UIImage(systemName: "popcorn.fill")
-                return
+        Task { @MainActor in
+            do {
+                let imageData = try await delegate?.uploadImages(for: movieId, image: url)
+
+                guard let imageData, let uiImage = UIImage(data: imageData) else {
+                    image.image = Constants.defaultImage
+                    return
+                }
+
+                image.image = uiImage
+                stopLoader()
+            } catch {
+                debugPrint("Image Loading error: \(error.localizedDescription)")
+                stopLoader()
             }
-            self?.stopLoader()
-            self?.image.image = uiImage
         }
-        stopLoader()
     }
 }
 
@@ -162,5 +174,6 @@ fileprivate extension MovieCell {
         static let textTrailingInset: CGFloat = 24
         static let imageHeight: CGFloat = 75
         static let imageWidth: CGFloat = 50
+        static let defaultImage: UIImage? = .init(systemName: "popcorn.fill")
     }
 }

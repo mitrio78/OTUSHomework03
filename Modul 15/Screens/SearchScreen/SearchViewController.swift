@@ -14,7 +14,7 @@ final class SearchViewController: UIViewController {
 
     // MARK: - Dependencies
 
-    @Injected private var interactor: SearchInteractor!
+    @Injected private var viewModel: SearchViewModel!
 
     // MARK: - Private Properties
 
@@ -100,7 +100,7 @@ extension SearchViewController: UITableViewDelegate {
             style: .normal,
             title: nil
         ) { [weak self] (action, view, completionHandler) in
-            self?.interactor.addToFavorites(indexPath.row)
+            self?.viewModel.addToFavorites(indexPath.row)
             completionHandler(true)
         }
 
@@ -124,7 +124,7 @@ extension SearchViewController: UITableViewDataSource {
             return UITableViewCell()
         }
 
-        cell.set(delegate: interactor)
+        cell.set(delegate: viewModel)
         cell.set(model: movies[indexPath.row])
         return cell
     }
@@ -135,7 +135,7 @@ extension SearchViewController: UITableViewDataSource {
 extension SearchViewController: UISearchBarDelegate {
 
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
-        interactor.searchMovie(searchText)
+        viewModel.searchMovie(searchText)
     }
 }
 
@@ -144,15 +144,15 @@ extension SearchViewController: UISearchBarDelegate {
 fileprivate extension SearchViewController {
 
     func setObservers() {
-        cancellableSearchMode = interactor.$searchType.sink { [weak self] searchType in
+        cancellableSearchMode = viewModel.$searchType.sink { [weak self] searchType in
             self?.updateSearchType(searchType)
         }
 
-        cancellableLoader = interactor.$isLoading.sink { [weak self] isLoading in
+        cancellableLoader = viewModel.$isLoading.sink { [weak self] isLoading in
             self?.setLoader(isLoading)
         }
 
-        cancellableMovies = interactor.$movies.sink { [weak self] movies in
+        cancellableMovies = viewModel.$movies.sink { [weak self] movies in
             self?.movies = movies
             self?.tableView.reloadData()
         }
@@ -172,7 +172,7 @@ fileprivate extension SearchViewController {
 
     @objc
     func toggleService() {
-        interactor.toggleSearchService()
+        viewModel.toggleSearchService()
         tableView.reloadData()
         repeatSearch()
     }
@@ -203,7 +203,7 @@ fileprivate extension SearchViewController {
             return
         }
 
-        interactor.searchMovie(text)
+        viewModel.searchMovie(text)
     }
 
     func stopLoading() {

@@ -17,9 +17,8 @@ final class Configurator {
     func register() {
         ServiceLocator.shared.add(object: NetworkService())
         ServiceLocator.shared.add(object: StorageService())
-        ServiceLocator.shared.add(object: KinopoiskSearchService())
-        ServiceLocator.shared.add(object: OMDBSearchService())
+        ServiceLocator.shared.add(object: SearchAPIService())
         ServiceLocator.shared.add(object: FavoritesService())
-        ServiceLocator.shared.add(object: SearchInteractor())
+        ServiceLocator.shared.add(object: SearchViewModel())
     }
 }
