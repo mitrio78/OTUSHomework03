@@ -75,7 +75,18 @@ extension FavoritesViewController: UITableViewDataSource {
         }
 
         cell.set(model: movies[indexPath.row])
+        cell.set(delegate: self)
         return cell
+    }
+}
+
+extension FavoritesViewController: MovieCellDelegate {
+    func uploadImages(for id: String, image urlString: String) async throws -> Data? {
+        guard let index = movies.firstIndex(where: { $0.id == id }) else {
+            return nil
+        }
+
+        return movies[index].image
     }
 }
 
