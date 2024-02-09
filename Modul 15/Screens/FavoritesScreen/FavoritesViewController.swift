@@ -20,7 +20,7 @@ final class FavoritesViewController: UIViewController {
 
     private var movies: [MovieDisplayModel] = []
 
-    @Injected private var favoritesService: FavoritesService!
+    @Injected private var favoritesService: FavoritesServiceProtocol!
 
     // MARK: - UI Properties
 

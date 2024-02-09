@@ -8,7 +8,7 @@
 import Foundation
 
 @propertyWrapper
-struct Injected<T: AnyObject> {
+struct Injected<T> {
 
     private var service: T?
 
@@ -16,7 +16,7 @@ struct Injected<T: AnyObject> {
 
     var wrappedValue: T? {
         mutating get {
-            self.service = self.serviceLocator.get()
+            self.service = self.serviceLocator.resolve(T.self)
             return service
         }
         mutating set {

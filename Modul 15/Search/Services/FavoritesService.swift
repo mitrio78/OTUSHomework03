@@ -21,7 +21,7 @@ final class FavoritesService: FavoritesServiceProtocol {
 
     // MARK: - Properties
 
-    @Injected private var storage: StorageService!
+    @Injected private var storage: StorageServiceProtocol!
 
     func save(_ movie: MovieDisplayModel) {
         var movies = loadFavorites()

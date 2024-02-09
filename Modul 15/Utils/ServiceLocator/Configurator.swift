@@ -15,10 +15,10 @@ final class Configurator {
     private init() { }
 
     func register() {
-        ServiceLocator.shared.add(object: NetworkService())
-        ServiceLocator.shared.add(object: StorageService())
-        ServiceLocator.shared.add(object: SearchAPIService())
-        ServiceLocator.shared.add(object: FavoritesService())
-        ServiceLocator.shared.add(object: SearchViewModel())
+        ServiceLocator.shared.register(type: NetworkServiceProtocol.self, object: NetworkService())
+        ServiceLocator.shared.register(type: StorageServiceProtocol.self, object: StorageService())
+        ServiceLocator.shared.register(type: SearchAPIServiceProtocol.self, object: SearchAPIService())
+        ServiceLocator.shared.register(type: FavoritesServiceProtocol.self, object: FavoritesService())
+        ServiceLocator.shared.register(type: SearchViewModelProtocol.self, object: SearchViewModel())
     }
 }

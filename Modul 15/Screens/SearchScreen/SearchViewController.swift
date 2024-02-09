@@ -14,7 +14,7 @@ final class SearchViewController: UIViewController {
 
     // MARK: - Dependencies
 
-    @Injected private var viewModel: SearchViewModel!
+    @Injected private var viewModel: SearchViewModelProtocol!
 
     // MARK: - Private Properties
 
@@ -144,15 +144,15 @@ extension SearchViewController: UISearchBarDelegate {
 fileprivate extension SearchViewController {
 
     func setObservers() {
-        cancellableSearchMode = viewModel.$searchType.sink { [weak self] searchType in
+        cancellableSearchMode = viewModel.searchTypePublisher.sink { [weak self] searchType in
             self?.updateSearchType(searchType)
         }
 
-        cancellableLoader = viewModel.$isLoading.sink { [weak self] isLoading in
+        cancellableLoader = viewModel.isLoadingPublisher.sink { [weak self] isLoading in
             self?.setLoader(isLoading)
         }
 
-        cancellableMovies = viewModel.$movies.sink { [weak self] movies in
+        cancellableMovies = viewModel.moviesPublisher.sink { [weak self] movies in
             self?.movies = movies
             self?.tableView.reloadData()
         }

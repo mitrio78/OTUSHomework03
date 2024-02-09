@@ -9,19 +9,19 @@ import Foundation
 
 final class ServiceLocator {
 
-    static let shared: ServiceLocator = ServiceLocator()
+    static let shared = ServiceLocator()
 
     private init() { }
 
-    private var services: [String: Any] = [:]
+    private var dependencies = [String: Any]()
 
-    func add<T: AnyObject>(object: T) {
-        let key = String(describing: T.self)
-        services[key] = object
+    func register<T>(type: T.Type, object: T) {
+        let key = "\(type)"
+        dependencies[key] = object
     }
 
-    func get<T: AnyObject>() -> T? {
-        let key = String(describing: T.self)
-        return services[key] as? T
+    func resolve<T>(_ type: T.Type) -> T? {
+        let key = "\(type)"
+        return dependencies[key] as? T
     }
 }

@@ -7,6 +7,8 @@
 import SnapKit
 import UIKit
 
+// MARK: - MovieCellDelegate
+
 protocol MovieCellDelegate: AnyObject {
     func uploadImages(for id: String, image urlString: String) async throws -> Data?
 }

@@ -20,7 +20,7 @@ protocol SearchAPIServiceProtocol {
 
 final class SearchAPIService: SearchAPIServiceProtocol {
 
-    @Injected var networkService: NetworkService!
+    @Injected var networkService: NetworkServiceProtocol!
 
     func getKinoPoiskResults(searchString: String) async throws -> KinoPoiskResponse {
         var request = KinopoiskSearchRequestData()

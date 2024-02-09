@@ -11,12 +11,12 @@ import Foundation
 // MARK: - SearchViewModel
 
 final class SearchViewModel: ObservableObject {
-
+    
     // MARK: - Dependencies
-
-    @Injected private var apiService: SearchAPIService!
-    @Injected private var storage: FavoritesService!
-
+    
+    @Injected private var apiService: SearchAPIServiceProtocol!
+    @Injected private var storage: FavoritesServiceProtocol!
+    
     // MARK: - Properties
 
     @Published private(set) var movies: [MovieDisplayModel] = []
@@ -24,20 +24,34 @@ final class SearchViewModel: ObservableObject {
     @Published private(set) var isLoading: Bool = false
 
     private var timer: Timer?
+}
 
-    // MARK: - Methods
+// MARK: - SearchViewModelProtocol
 
+extension SearchViewModel: SearchViewModelProtocol {
+    var moviesPublisher: Published<[MovieDisplayModel]>.Publisher {
+        $movies
+    }
+    
+    var searchTypePublisher: Published<SearchServiceType>.Publisher {
+        $searchType
+    }
+    
+    var isLoadingPublisher: Published<Bool>.Publisher {
+        $isLoading
+    }
+    
     func toggleSearchService() {
         movies = []
         switch searchType {
         case .omdb:
             searchType = .kinopoisk
-
+            
         case .kinopoisk:
             searchType = .omdb
         }
     }
-
+    
     func addToFavorites(_ index: Int) {
         storage.save(movies[index])
     }
